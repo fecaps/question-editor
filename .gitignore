@@ -1,0 +1,13 @@
+# package directories
+node_modules
+jspm_packages
+
+# nyc coverage
+.nyc_output
+coverage
+
+# api
+api/assets
+api/node_modules
+api/.nyc_output
+api/coverage

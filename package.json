@@ -1,0 +1,13 @@
+{
+  "name": "question_editor",
+  "version": "1.0.0",
+  "description": "Question Editor",
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "scripts": {
+    "clean:docker:data": "docker system prune && docker volume prune"
+  },
+  "author": "Fellipe Capelli <fellipecapelli@gmail.com>",
+  "license": "ISC"
+}

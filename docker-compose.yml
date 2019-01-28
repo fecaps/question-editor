@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  mongo:
+    container_name: question_editor_mongo
+    image: mongo:4.0.3
+    ports:
+      - 27017:27017
+
+  redis:
+    container_name: question_editor_redis
+    image: redis:4
+    ports:
+      - 6379:6379
+
+  redis-commander:
+    container_name: question_editor_rediscommander
+    image: rediscommander/redis-commander:latest
+    ports:
+      - 8081:8081
+    environment:
+      REDIS_HOSTS: redis
+    depends_on:
+      - redis
+
+  webapi:
+    container_name: question_editor_webapi
+    build:
+      context: ./api
+    ports:
+      - 80:3000
+    volumes:
+      - /src/node_modules
+      - ./api:/src
+    environment:
+      PORT: 3000
+      MONGO_URL: mongodb://mongo:27017
+      MONGO_DATABASE: question_editor
+      REDIS_HOST: redis
+      REDIS_PORT:  6379
+      NODE_ENV: development
+    depends_on:
+      - mongo
+      - redis
+    restart: always
+
+  webapp:
+    container_name: question_editor_webapp
+    build:
+      context: ./webapp
+    volumes:
+      - /src/node_modules
+      - ./webapp:/src
+    ports:
+      - 3000:3000
+    environment:
+      NODE_ENV: development
